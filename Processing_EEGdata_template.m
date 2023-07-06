@@ -113,7 +113,7 @@ for n=1:length(paradigm_loop)
     % plot Welch freq by group (for channels of interest)
     %---------------------------------------------------------------------------------------------------
 
-    STEP6_FreqAnalysis_plotChannelsbyIndividual(save_path,subject_list,conditions,streams,epoch_min,epoch_max,chan_of_interest,...
+    STEP6_FreqAnalysis(save_path,subject_list,conditions,streams,epoch_min,epoch_max,chan_of_interest,...
         max_pwelch_freq,time_freq_frequencies_range,baseline_start,baseline_end);
 
 end
