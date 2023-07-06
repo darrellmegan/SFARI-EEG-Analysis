@@ -1,7 +1,7 @@
 # SFARI-EEG-Analysis
 EEG processing & analysis of SFARI paradigms (ASD vs. controls)
 ***
-## [Main script](EEG-processing-steps\Processing_EEGdata_template.m)
+## [Main script](EEG-processing-steps/Processing_EEGdata_template.m)
 Loops through various paradigms in SFARI protocol to process EEG data (in BDF files)
 
 ### 1.  [Reads in variables](EEG-processing-steps\set_variables.m), given threshold values in [variable excel](EEG-processing-steps\variables_per_paradigm.xlsx)
