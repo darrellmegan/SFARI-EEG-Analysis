@@ -22,4 +22,4 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
   - Plots FFT by individual (for channels of interest)
 - Group analyses 
   - Plots FFT by group (for channels of interest)
-  - Plots Welch freq by group (for channels of interest) - requires [plotpWelch](plotpWelch.m) script
+  - Plots Welch freq by group (for channels of interest) - requires [plotPwelch](plotPwelch.m) script
