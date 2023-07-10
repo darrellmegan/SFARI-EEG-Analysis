@@ -14,9 +14,11 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
 - Individual analyses
   - [Save individual ERP datasets](STEP5_ERPanalysis_createERPdatasets.m) to drive (required for plotting)
   - [Plot individual ERPs](STEP5_ERPanalysis_plotChannelsbyIndividual.m) (on a per-participant basis, separated by channels of interest)
+  - Produce [topographical map animations](STEP5_TopoMovies.m) by individual
 - Group analyses
   - [Save group ERP datasets](STEP5_ERPanalysis_make_groupERP_matrix.m) to drive (required for plotting)
   - [Plot group ERPs](STEP5_ERPanalysis_plotChannelsbyGroup.m) (on a per-group basis, separated by channels of interest)
+  - Produce [topographical map animations](STEP5_TopoMovies_Group.m) by group to identify channels of interest
 ### 7.  [Frequency Analysis](STEP6_FreqAnalysis.m)
 - Individual analyses
   - Plots FFT by individual (for channels of interest)
@@ -24,5 +26,3 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
   - Plots FFT by group (for channels of interest)
   - Plots Welch freq by group (for channels of interest) - requires [plotPwelch](plotPwelch.m) script
 ### 8.  Extract frequencies windows of interest for more specific ERP waveforms
-
-### 9.  Repeat steps 3-5, 7 with different threshold values (to now include gamma frequencies).
