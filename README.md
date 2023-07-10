@@ -23,3 +23,6 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
 - Group analyses 
   - Plots FFT by group (for channels of interest)
   - Plots Welch freq by group (for channels of interest) - requires [plotPwelch](plotPwelch.m) script
+### 8.  Extract frequencies windows of interest for more specific ERP waveforms
+
+### 9.  Repeat steps 3-5, 7 with different threshold values (to now include gamma frequencies).
