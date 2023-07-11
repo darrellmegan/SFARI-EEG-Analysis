@@ -1,7 +1,7 @@
 % -------------------------------------------------------------------------
 % Name: Megan Darrell
 % Email: megan.darrell@einsteinmed.edu
-% Last Updated: 06/23/2023
+% Last Updated: 07/11/2023
 % -------------------------------------------------------------------------
 
 %---------------------------------------------------------------------------------------------------
@@ -44,14 +44,15 @@ for n=1:length(paradigm_loop)
     %% ---------------------------------------------------------------------------------------------------
     % SET VARIABLES!
     %---------------------------------------------------------------------------------------------------
-    
+
     [load_path,save_path,binlist_location,pts_to_exclude,rem_intervals,downsampling_rate,...
         high_pass_filter,low_pass_filter,rem_channels_manually,channels_to_rem,rej_high_SD,...
         rej_low_SD,refchan_bin,refchan,volt_thresh,buffer,epoch_min,epoch_max,baseline_min,baseline_max,...
         n_bins,max_pwelch_freq,time_freq_frequencies_range,stream1,stream2,streams,conditions,...
         highpass_filter_stream2,lowpass_filter_stream2,highpass_filter_stream1,lowpass_filter_stream1,...
-        trials_num_reduced,ERP_top_ref,pwelch_epoch_start,pwelch_epoch_end,chan_of_interest,grp_controls,baseline_start,baseline_end] = set_variables( paradigm, my_data_path, myVar_tab);
-    
+        trials_num_reduced,ERP_top_ref,pwelch_epoch_start,pwelch_epoch_end,chan_of_interest,grp_controls,baseline_start,baseline_end,...
+        extr_low_pass_filter_cond1,extr_high_pass_filter_cond1,extr_low_pass_filter_cond2,extr_high_pass_filter_cond2,ICA_eye,ICA_brain] = set_variables( paradigm, my_data_path, myVar_tab);
+
 
     %% ---------------------------------------------------------------------------------------------------
     % DEFINE SUBJECTS
@@ -66,7 +67,7 @@ for n=1:length(paradigm_loop)
     %---------------------------------------------------------------------------------------------------
 
     STEP1_2_Merge_RejectChan(subject_list,load_path,save_path,rem_intervals,...
-        high_pass_filter,low_pass_filter,rem_channels_manually,channels_to_rem,downsampling_rate,rej_low_SD,rej_high_SD);
+        high_pass_filter,low_pass_filter,rem_channels_manually,channels_to_rem,downsampling_rate,rej_low_SD,rej_high_SD,'');
 
     %% ---------------------------------------------------------------------------------------------------
     % STEP 3: ICA (runica)
@@ -87,6 +88,9 @@ for n=1:length(paradigm_loop)
 
     % plot avg ERPs between groups (for channels of interest)
     %---------------------------------------------------------------------------------------------------
+    
+    STEP5_TopoMovies_Group(save_path,subject_list,conditions,streams,downsampling_rate,epoch_min,epoch_max);
+    STEP5_TopoMovies(save_path,subject_list,conditions,streams);
 
     % create EEGLAB structures with epochs of one type
     % reduce # of trials to be same for everyone (by randomly deleting)
@@ -116,9 +120,20 @@ for n=1:length(paradigm_loop)
     STEP6_FreqAnalysis(save_path,subject_list,conditions,streams,epoch_min,epoch_max,chan_of_interest,...
         max_pwelch_freq,time_freq_frequencies_range,baseline_start,baseline_end);
 
-end
+    %% ---------------------------------------------------------------------------------------------------
+    % STEP 7: Build study
+
+    % Sets frequency windows of interest for given conditions (for ERP plotting)
+    % Assigns patients to groups (for ERP plotting by group)
+    %---------------------------------------------------------------------------------------------------
+
+    STEP7_buildStudy(save_path,extr_high_pass_filter_cond1,extr_high_pass_filter_cond2,extr_low_pass_filter_cond1,extr_low_pass_filter_cond2,...
+        subject_list,conditions,streams,paradigm,ALLEEG,STUDY);
 
 
-
-
+    %% ---------------------------------------------------------------------------------------------------
+    % STEP 8: Plot ERPs within frequency windows of interest
+    %---------------------------------------------------------------------------------------------------
+   
+    STEP8_plotERPs_byWindow(save_path,chan_of_interest,paradigm,baseline_min,baseline_max);
 
