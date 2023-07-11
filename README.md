@@ -25,7 +25,7 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
 - Group analyses 
   - Plots FFT by group (for channels of interest)
   - Plots Welch freq by group (for channels of interest) - requires [plotPwelch](plotPwelch.m) script
-### 8.  [Build EEG study](STEP7_BuildStudy.m)
+### 8.  [Build EEG study](STEP7_buildStudy.m)
 - Sets frequency windows of interest for given conditions (for ERP plotting)
 - Assigns patients to groups (for ERP plotting by group)
 ### 9.  [Plot ERPs within frequency windows of interest](STEP8_plotERPs_byWindow.m)
