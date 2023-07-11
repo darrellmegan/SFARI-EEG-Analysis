@@ -29,4 +29,4 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
 - Sets frequency windows of interest for given conditions (for ERP plotting)
 - Assigns patients to groups (for ERP plotting by group)
 ### 9.  [Plot ERPs within frequency windows of interest](STEP8_plotERPs_byWindow.m)
-- ![EXAMPLE](ERP_Cz.png): Group ERPs for Cz channel
+- ![EXAMPLE](ERP_Cz.png | width=100): Group ERPs for Cz channel
