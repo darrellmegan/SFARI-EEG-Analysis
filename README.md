@@ -19,7 +19,7 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
 - Group analyses
   - [Save group ERP datasets](STEP5_ERPanalysis_make_groupERP_matrix.m) to drive (required for plotting)
   - [Plot group ERPs](STEP5_ERPanalysis_plotChannelsbyGroup.m) (on a per-group basis, separated by channels of interest)
-      - [EXAMPLE: ERP for ASD group at Cz channel (40 Hz condition)](ASDvsControls_40Hz_Cz.png)
+      - [EXAMPLE: ERPs by group at Cz channel (40 Hz condition)](ASDvsControls_40Hz_Cz.png)
   - Produce [topographical map animations](STEP5_TopoMovies_Group.m) by group to identify channels of interest
       - [EXAMPLE: Topo map for ASD group (40 Hz condition)](ASD_40Hz_topomovie.mp4)
 ### 7.  [Frequency Analysis](STEP6_FreqAnalysis.m)
