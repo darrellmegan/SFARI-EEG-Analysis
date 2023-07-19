@@ -1,6 +1,6 @@
 
 function myReturn = STEP6_FreqAnalysis(save_path,subject_list,conditions,streams,epoch_min,epoch_max,chan_of_interest,...
-    max_pwelch_freq,time_freq_frequencies_range,baseline_start,baseline_end);
+    max_pwelch_freq,time_freq_frequencies_range,baseline_start,baseline_end,paradigm);
 myReturn='';
 
 %% ---------------------------------------------------------------------------------------------------
@@ -100,6 +100,17 @@ for chan_count = 1:length(chan_of_interest)
                     writematrix(beta,[tmp_tmp_mat_path_bands 'beta_' subject_list{s} '_' chan '_' char(streams(condition_count)) 'Hz.txt'])
                     tmp_tmp_mat_path_bands = [tmp_mat_path_bands '\gamma\'];mkdir(tmp_tmp_mat_path_bands);
                     writematrix(gamma,[tmp_tmp_mat_path_bands 'gamma_' subject_list{s} '_' chan '_' char(streams(condition_count)) 'Hz.txt'])
+
+                    if paradigm == 'ASSR_oddball'
+                        twentysevenHz = vertcat(subj_power(find(f==22):find(f==32)),f(find(f==22):find(f==32)));
+                        tmp_tmp_mat_path_bands = [tmp_mat_path_bands '\twentysevenHz\'];mkdir(tmp_tmp_mat_path_bands);
+                        writematrix(twentysevenHz,[tmp_tmp_mat_path_bands 'twentysevenHz_' subject_list{s} '_' chan '_' char(streams(condition_count)) 'Hz.txt'])
+                        
+                        fortyHz = vertcat(subj_power(find(f==35):find(f==45)),f(find(f==35):find(f==45)));
+                        tmp_tmp_mat_path_bands = [tmp_mat_path_bands '\fortyHz\'];mkdir(tmp_tmp_mat_path_bands);
+                        writematrix(fortyHz,[tmp_tmp_mat_path_bands 'fortyHz_' subject_list{s} '_' chan '_' char(streams(condition_count)) 'Hz.txt'])
+                    end
+
 
                     figure; [ersp,itc,powbaseCommon,times,freqs,erspboot,itcboot, tfdata] =pop_newtimef( EEG, ...
                         1, ...% 0 if use ICA data, 1 if raw
