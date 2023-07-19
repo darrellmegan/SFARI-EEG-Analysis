@@ -31,8 +31,12 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
       - [EXAMPLE: FFT for ASD group at Cz channel (27 Hz condition)](freq-time-analysis_27Hz_ASD_Cz.png)
   - Plots Welch freq by group (for channels of interest) - requires [plotPwelch](plotPwelch.m) script
       - [EXAMPLE: Welch frequency for ASD group at Cz channel](freq-time-WELCH_ASD_Cz.png)
+  - Exports .txt files of power vectors necessary for machine learning classification
 ### 8.  [Build EEG study](STEP7_buildStudy.m)
 - Sets frequency windows of interest for given conditions (for ERP plotting)
 - Assigns patients to groups (for ERP plotting by group)
 ### 9.  [Plot ERPs within frequency windows of interest](STEP8_plotERPs_byWindow.m)
 - [EXAMPLE: Group ERPs for Cz channel](ERP_Cz.png)
+
+## [Machine Learning Classification](classifier_linearSVC.m)
+Classifies patients as ASD or control by their power spectra bands (as exported in Step 7)
