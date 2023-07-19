@@ -16,6 +16,7 @@ home_path  = [save_path '\AfterStep5_ERPAnalysis\'];
 fig_path = [save_path '\Figures\Freq_analysis\']; mkdir(fig_path);
 ind_fig_path = [fig_path '\Individual\']; mkdir(ind_fig_path);
 group_fig_path = [fig_path '\Group\']; mkdir(group_fig_path);
+mat_path = [save_path '\AfterStep6_Freq_analysis\']; mkdir(mat_path);
 
 
 %Loop through all subjects
@@ -36,6 +37,8 @@ for chan_count = 1:length(chan_of_interest)
         data_path  = [home_path subject_list{s} '\'];
 
         for condition_count = 1:length(conditions)
+            tmp_mat_path = [mat_path '\' char(streams(condition_count)) 'Hz\' chan '\']; mkdir(tmp_mat_path);
+            tmp_mat_path_bands = [mat_path 'freq-bands\' char(streams(condition_count)) 'Hz\' chan '\']; mkdir(tmp_mat_path_bands);
             % separating epochs
             myFileName = [data_path subject_list{s} '_' char(streams(condition_count)) '_std.set'];
             % value of 2 indicates file exists at this location
@@ -55,7 +58,7 @@ for chan_count = 1:length(chan_of_interest)
                         if strcmp(char(streams(condition_count)),'40')
                             [power_40_subj(:,:),f] = plotPwelch(EEG.data(chan_number,:,:),[],[],max_pwelch_freq,Fs,subject_list{s},chan);
                             power_40_log_control(:,:,s)=10*log10(power_40_subj);
-
+                            subj_power = power_40_subj(:,:);
                             concat_40_control = cat(3, concat_40_control, EEG.data(chan_number,:,:));%data for newtimef function (time freq)
 
                         else
@@ -63,25 +66,42 @@ for chan_count = 1:length(chan_of_interest)
 
                             [power_27_subj(:,:),f] = plotPwelch(EEG.data(chan_number,:,:),[],[],max_pwelch_freq,Fs,subject_list{s},chan);
                             power_27_log_control(:,:,s)=10*log10(power_27_subj);
-
+                            subj_power = power_27_subj(:,:);
                             concat_27_control = cat(3, concat_27_control, EEG.data(chan_number,:,:));%data for newtimef function (time freq)
                         end
                     else
                         if strcmp(char(streams(condition_count)),'40')
                             [power_40_subj(:,:),f] = plotPwelch(EEG.data(chan_number,:,:),[],[],max_pwelch_freq,Fs,subject_list{s},chan);
                             power_40_log_ASD(:,:,s)=10*log10(power_40_subj);
-
+                            subj_power = power_40_subj(:,:);
                             concat_40_ASD = cat(3, concat_40_ASD, EEG.data(chan_number,:,:));%data for newtimef function (time freq)
 
                         else
                             [power_27_subj(:,:),f] = plotPwelch(EEG.data(chan_number,:,:),[],[],max_pwelch_freq,Fs,subject_list{s},chan);
                             power_27_log_ASD(:,:,s)=10*log10(power_27_subj);
-
+                            subj_power = power_27_subj(:,:);
                             concat_27_ASD = cat(3, concat_27_ASD, EEG.data(chan_number,:,:));%data for newtimef function (time freq)
                         end
                     end
+                    
+                    delta = vertcat(subj_power(find(f==0.5):find(f==4)),f(find(f==0.5):find(f==4)));
+                    theta = vertcat(subj_power(find(f==4):find(f==7)),f(find(f==4):find(f==7)));
+                    alpha = vertcat(subj_power(find(f==8):find(f==12)),f(find(f==8):find(f==12)));
+                    beta = vertcat(subj_power(find(f==13):find(f==30)),f(find(f==13):find(f==30)));
+                    gamma = vertcat(subj_power(find(f==30):find(f==max_pwelch_freq)),f(find(f==30):find(f==max_pwelch_freq)));
+                    
+                    tmp_tmp_mat_path_bands = [tmp_mat_path_bands '\delta\'];mkdir(tmp_tmp_mat_path_bands);
+                    writematrix(delta,[tmp_tmp_mat_path_bands 'delta_' subject_list{s} '_' chan '_' char(streams(condition_count)) 'Hz.txt'])
+                    tmp_tmp_mat_path_bands = [tmp_mat_path_bands '\theta\'];mkdir(tmp_tmp_mat_path_bands);
+                    writematrix(theta,[tmp_tmp_mat_path_bands 'theta_' subject_list{s} '_' chan '_' char(streams(condition_count)) 'Hz.txt'])
+                    tmp_tmp_mat_path_bands = [tmp_mat_path_bands '\alpha\'];mkdir(tmp_tmp_mat_path_bands);
+                    writematrix(alpha,[tmp_tmp_mat_path_bands 'alpha_' subject_list{s} '_' chan '_' char(streams(condition_count)) 'Hz.txt'])
+                    tmp_tmp_mat_path_bands = [tmp_mat_path_bands '\beta\'];mkdir(tmp_tmp_mat_path_bands);
+                    writematrix(beta,[tmp_tmp_mat_path_bands 'beta_' subject_list{s} '_' chan '_' char(streams(condition_count)) 'Hz.txt'])
+                    tmp_tmp_mat_path_bands = [tmp_mat_path_bands '\gamma\'];mkdir(tmp_tmp_mat_path_bands);
+                    writematrix(gamma,[tmp_tmp_mat_path_bands 'gamma_' subject_list{s} '_' chan '_' char(streams(condition_count)) 'Hz.txt'])
 
-                    figure; pop_newtimef( EEG, ...
+                    figure; [ersp,itc,powbaseCommon,times,freqs,erspboot,itcboot, tfdata] =pop_newtimef( EEG, ...
                         1, ...% 0 if use ICA data, 1 if raw
                         chan_number, ...
                         [epoch_min  epoch_max], ...
@@ -97,6 +117,9 @@ for chan_count = 1:length(chan_of_interest)
                         'title', ['Subject: ' subject_list{s} ' (Channel ' chan ' at ' char(streams(condition_count)) 'Hz)']);
 
                     print([ind_fig_path 'freq-time_' chan '_' char(streams(condition_count)) 'Hz_std_' subject_list{s}], '-dpng' ,'-r300');
+                    save([tmp_mat_path 'TFmatrix_' subject_list{s} '_' chan '_' char(streams(condition_count)) 'Hz.mat'], 'tfdata', 'times', 'freqs',  '-v7.3')
+
+ 
                     close all
                 end
 
@@ -184,4 +207,3 @@ for chan_count = 1:length(chan_of_interest)
     end
 
 end
-
