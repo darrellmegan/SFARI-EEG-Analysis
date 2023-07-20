@@ -10,11 +10,10 @@ import numpy as np
 
 mySavePath = '//data2.einsteinmed.edu/home/cnl-interns-lab/Interns/darrellm/EEG Processing/SFARI/ProcessedData/ASSR_oddball/AfterStep8_ML/'
 num_iter = 100
-num_patients = 50
 
-myBands = ['delta','theta','alpha','beta','gamma']
-freq_range = [3.5,3,4,17,20]
-myChans = ['FCz']
+myBands = ['delta','theta','alpha','beta','gamma','fortyHz','twentysevenHz']
+freq_range = [3.5,3,4,17,20,10,10]
+myChans = ['FCz','Cz','Pz','T7','T8']
 myConditions = ['40Hz','27Hz']
 
 condition_count=-1
@@ -34,7 +33,7 @@ for myCondition in myConditions:
             
             num_freq_windows = int(freq_range[band_count]*100+1)
             
-            
+            num_patients = len(myDir)
             power_x = np.ndarray([num_patients,num_freq_windows])
             groups_y = np.zeros(num_patients)
             
@@ -74,6 +73,6 @@ for myCondition in myConditions:
             mean_accuracy = accuracies.mean()
             print(mean_accuracy)
             
-            with open(mySavePath + 'mean_accuracies_'+myCondition+'_'+myChan+'.txt', 'a') as f:
-                f.write(myBand + ' ---- AVG SCORE: ' + str(mean_accuracy)+'\n')
+            with open(mySavePath + 'mean_accuracies.txt', 'a') as f:
+                f.write(myBand + ',' +myCondition+ ',' +myChan+ ',' +str(mean_accuracy)+ '\n')
                 
