@@ -40,3 +40,4 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
 
 ## [Machine Learning Classification](classifier_linearSVC.py)
 Classifies patients as ASD or control by their power spectra bands (as exported in Step 7)
+- [Plot mean classification accuracies](plotMLaccuracies.R) by channel and condition
