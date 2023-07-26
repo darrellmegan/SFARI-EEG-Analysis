@@ -1,7 +1,7 @@
 % -------------------------------------------------------------------------
 % Name: Megan Darrell
 % Email: megan.darrell@einsteinmed.edu
-% Last Updated: 07/11/2023
+% Last Updated: 07/25/2023
 % -------------------------------------------------------------------------
 
 %---------------------------------------------------------------------------------------------------
@@ -115,6 +115,7 @@ for n=1:length(paradigm_loop)
     % plot FFT by individual (for channels of interest)
     % plot FFT by group (for channels of interest)
     % plot Welch freq by group (for channels of interest)
+    % output power vectors in .txt files for machine learning analysis
     %---------------------------------------------------------------------------------------------------
 
     STEP6_FreqAnalysis(save_path,subject_list,conditions,streams,epoch_min,epoch_max,chan_of_interest,...
@@ -136,4 +137,5 @@ for n=1:length(paradigm_loop)
     %---------------------------------------------------------------------------------------------------
    
     STEP8_plotERPs_byWindow(save_path,chan_of_interest,paradigm,baseline_min,baseline_max);
+
 
