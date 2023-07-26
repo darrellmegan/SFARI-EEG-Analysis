@@ -9,6 +9,7 @@ bands = c('delta','theta','alpha','beta','gamma','fortyHz','twentysevenHz')
 freq_min = c(0.5,4,8,13,30,35,22)
 freq_max = c(4,7,12,30,50,45,32)
 
+# initialize lists for pvalue & FC matricies
 pval_list<-c()
 condition_list<-c()
 chan_list<-c()
@@ -27,17 +28,21 @@ for(myCondition in conditions){
       tmp_dataPath <- paste(dataPath,myCondition,myChannel,myBand,sep='/')
       tmp_dataPath_timewindow <-paste(tmp_dataPath,'time_window',sep='/')
       print(tmp_dataPath)
-
+  
+      # list of files for each subject, parsed by frequency bands of interest
       list_files = list.files(tmp_dataPath)
       
       group_data <- data.frame(matrix(NA,nrow=length(list_files),ncol=2))
       colnames(group_data)<-c('MeanPower','Group')
       
       count=0
+      # for every subject
       for(myFile in list_files){
         
         count = count+1
         if(myFile!='time_window' && myFile!='group_time_window' ){
+          
+          # read in patient data
           pt_data <- read.csv(paste(tmp_dataPath,myFile,sep='/'),header=FALSE)
           pt_data <- data.frame(t(pt_data))
           colnames(pt_data) <- c('Power','Freq')
@@ -50,6 +55,7 @@ for(myCondition in conditions){
             group_data$Group[count] <- 0
           }
           else{
+            # pt is not a control
             group_data$Group[count] <- 1
           }
         }
@@ -57,11 +63,14 @@ for(myCondition in conditions){
         
       }
       
+      # calculate fold change between ASD and control groups
       fc <- foldchange(mean(subset(group_data,group_data$Group==1)$MeanPower),mean(subset(group_data,group_data$Group==0)$MeanPower))
       
+      # conduct t-test between ASD and control groups & save pval (ACROSS ENTIRE EPOCH LENGTH)
       t_test <- t.test(group_data$MeanPower,group_data$Group)
       pval <- as.numeric(t_test$p.value)
       
+      # add data from group analyses to previously initialized list
       pval_list<-c(pval_list,pval)
       condition_list<-c(condition_list,myCondition)
       chan_list<-c(chan_list,myChannel)
@@ -69,7 +78,10 @@ for(myCondition in conditions){
       time_window_list<-c(time_window_list,'all')
       fold_change_list<-c(fold_change_list,fc)
       
+      # perform t-tests at specific time windows
       if(myBand %in% conditions_for_timewindows){
+        
+        # loop through the time windows you're interested in evaluating
         list_timewindows = list.files(tmp_dataPath_timewindow)
         for(myTimewindow in list_timewindows){
           
@@ -85,6 +97,7 @@ for(myCondition in conditions){
             
             count = count+1
             
+            # open the file for the frequency band and time window of interest
             pt_data <- read.csv(paste(tmp_tmp_dataPath_timewindow,myFile,sep='/'),header=FALSE)
             pt_data <- data.frame(t(pt_data))
             colnames(pt_data) <- c('Power','Freq')
@@ -97,15 +110,18 @@ for(myCondition in conditions){
               group_data_time_window$Group[count] <- 0
             }
             else{
+              # pt is not a control
               group_data_time_window$Group[count] <- 1
             }
             
           }
           
           fc <- foldchange(mean(subset(group_data_time_window,group_data_time_window$Group==1)$MeanPower),mean(subset(group_data_time_window,group_data_time_window$Group==0)$MeanPower))
+          # conduct t-test between ASD and control groups & save pval (ACROSS TIME WINDOW) 
           t_test <- t.test(group_data_time_window$MeanPower,group_data_time_window$Group)
           pval <- as.numeric(t_test$p.value)
           
+          # append to list
           pval_list<-c(pval_list,pval)
           condition_list<-c(condition_list,myCondition)
           chan_list<-c(chan_list,myChannel)
@@ -122,6 +138,7 @@ for(myCondition in conditions){
   }
 }
 
+# create matrix
 pval_mat <- data.frame(cbind(Condition=condition_list,Channel=chan_list,Band=band_list,
                              pvals = pval_list,TimeWindow=time_window_list,
                              FC = fold_change_list))
