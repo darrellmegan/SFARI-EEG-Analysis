@@ -40,7 +40,7 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
 
 ## Statistical Analysis
 Evaluate differences between ASD and control groups at various power spectra bands 
-- [t-tests at specific freqency bands of interest](ttests_byPowerVector.R) + p-value & fold change heatmaps
+- [t-tests at specific freqency bands of interest](ttests_byPowerVector.R) + plots [p-value & fold change heatmaps](p-val and FC heatmap.png)
   
 ## [Machine Learning Classification](classifier_linearSVC.py)
 Classifies patients as ASD or control by their power spectra bands (as exported in Step 7)
