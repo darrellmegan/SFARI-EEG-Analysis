@@ -32,6 +32,7 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
   - Plots Welch freq by group (for channels of interest) - requires [plotPwelch](plotPwelch.m) script
       - [EXAMPLE: Welch frequency for ASD group at Cz channel](freq-time-WELCH_ASD_Cz.png)
   - Exports .txt files of power vectors necessary for machine learning classification
+  - Exports individual power matricies required for statistical analysis of different frequency bands
 ### 8.  [Build EEG study](STEP7_buildStudy.m)
 - Sets frequency windows of interest for given conditions (for ERP plotting)
 - Assigns patients to groups (for ERP plotting by group)
