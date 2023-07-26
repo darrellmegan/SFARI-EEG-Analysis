@@ -36,11 +36,11 @@ Loops through various paradigms in SFARI protocol to process EEG data (in BDF fi
 - Sets frequency windows of interest for given conditions (for ERP plotting)
 - Assigns patients to groups (for ERP plotting by group)
 ### 9.  [Plot ERPs within frequency windows of interest](STEP8_plotERPs_byWindow.m)
-- [EXAMPLE: Group ERPs for Cz channel](ERP_Cz.png) + p-value & fold change heatmaps
+- [EXAMPLE: Group ERPs for Cz channel](ERP_Cz.png)
 
 ## Statistical Analysis
 Evaluate differences between ASD and control groups at various power spectra bands 
-- [t-tests at specific freqency bands of interest](ttests_byPowerVector.R)
+- [t-tests at specific freqency bands of interest](ttests_byPowerVector.R) + p-value & fold change heatmaps
   
 ## [Machine Learning Classification](classifier_linearSVC.py)
 Classifies patients as ASD or control by their power spectra bands (as exported in Step 7)
